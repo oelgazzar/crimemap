@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Crime map</title>
+</head>
+<body>
+	<form action="/add" method="POST">
+		<input type="text" name="userinput" placeholder="input..">
+		<input type="submit" value="submit">
+	</form>
+	<a href="/clear">clear all</a>
+	<ul>
+		{% for id, desc in data %}
+			<li>{{ desc }} <a href="/clear/{{id}}">x</a></li>
+		{% endfor %}
+	</ul>
+</body>
+</html>
