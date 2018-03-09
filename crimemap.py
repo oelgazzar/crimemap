@@ -15,8 +15,9 @@ def home():
 @app.route("/add", methods=["POST"])
 def add():
 	try:
-		data = request.form.get("userinput")
-		dbhelper.add_input(data)
+		data = request.form
+		# dbhelper.add_input(data)
+		print(data)
 	except Exception as e:
 		print(e)
 	return redirect(url_for("home"))

@@ -1,0 +1,13 @@
+#map {
+	height: 500px;
+	float: left;
+	margin: 10px;
+	flex-grow: 1;
+}
+
+.container {
+	display: flex;
+}
+.form{
+	order: 1;
+}

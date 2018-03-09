@@ -20,7 +20,7 @@ def add_input(data):
 	conn = _connect()
 	try:
 		with conn.cursor() as cursor:
-			cursor.execute("INSERT INTO crimemap.crimes (description) VALUES (\"%s\")" % data)
+			cursor.execute("INSERT INTO crimemap.crimes (description) VALUES ('%s');" % data)
 			conn.commit()
 	finally:
 		conn.close()

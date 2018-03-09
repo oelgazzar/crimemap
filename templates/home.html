@@ -2,17 +2,100 @@
 <html>
 <head>
 	<title>Crime map</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/styles.css') }}">
 </head>
 <body>
-	<form action="/add" method="POST">
-		<input type="text" name="userinput" placeholder="input..">
-		<input type="submit" value="submit">
-	</form>
-	<a href="/clear">clear all</a>
-	<ul>
-		{% for id, desc in data %}
-			<li>{{ desc }} <a href="/clear/{{id}}">x</a></li>
-		{% endfor %}
-	</ul>
+	<div class="container">
+		<div class="form">
+			<h1>Crime Map</h1>
+			<form action="/add" method="POST">
+			<table>
+				<tr>
+				<td>
+					<label for="category">Category:</label>					
+				</td>
+				<td>
+					<select id="category" name="category">
+						<option value="fraud">Fraud</option>
+						<option value="kidnapping">Kidnapping</option>
+						<option value="murder">Murder</option>
+						<option value="theft">Theft</option>
+						<option value="robbery">Robbery</option>
+					</select>					
+				</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="date">Date:</label>
+					</td>
+					<td>
+						<input type="date" name="date" id="date">						
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="description">Description:</label>
+					</td>
+					<td>
+						<textarea name="description" placeholder="Describe the crime.." rows="10" id="description"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="location">Latitude</label>
+					</td>
+					<td>
+						<input type="text" name="latitude" id="latitude">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="longitude">Longitude</label>
+					</td>
+					<td>
+						<input type="text" name="longitude" id="longitude">
+					</td>
+				</tr>
+				<tr>
+						<td></td>
+						<td>
+							<input type="submit" value="submit">
+							<input type="reset" value="reset">
+							
+						</td>
+				</tr>
+			</table>
+			</form>
+		</div>
+		<div id="map"></div>
+	</div>
+
+	<script>
+		var map;
+		var marker = null;
+
+		function initMap() {
+			var urlu = {lat: 31.18, lng: 31.86};
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: urlu,
+				zoom: 10
+			});
+			google.maps.event.addListener(map, 'click', function(event) {
+				placeMarker(event.latLng)
+			});
+		}
+
+		function placeMarker(location) {
+			marker = marker || new google.maps.Marker({
+				map: map
+			});
+
+			marker.setPosition(location);
+			document.getElementById("latitude").value = location.lat()
+			document.getElementById("longitude").value = location.lng()
+		}
+	</script>
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTQ7_sIfKNNmwXH_hUkjCrNMCi5Rfbx24&callback=initMap"></script>
 </body>
 </html>
