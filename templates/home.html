@@ -8,7 +8,7 @@
 	<div class="container">
 		<div class="form">
 			<h1>Crime Map</h1>
-			<form action="/add" method="POST">
+			<form action="/submitcrime" method="POST">
 			<table>
 				<tr>
 				<td>
@@ -78,11 +78,23 @@
 			var urlu = {lat: 31.18, lng: 31.86};
 			map = new google.maps.Map(document.getElementById("map"), {
 				center: urlu,
-				zoom: 10
+				zoom: 3
 			});
 			google.maps.event.addListener(map, 'click', function(event) {
 				placeMarker(event.latLng)
 			});
+
+			placeCrimes({{ crimes | safe}})
+		}
+
+		function placeCrimes(crimes) {
+			for (var i = 0; i < crimes.length; i++) {
+				crime = new google.maps.Marker({
+					map: map,
+					position: {lat: crimes[i].latitude, lng: crimes[i].longitude},
+					title: crimes[i].date + "\n" + crimes[i].category + "\n" + crimes[i].description
+				});
+			}
 		}
 
 		function placeMarker(location) {
